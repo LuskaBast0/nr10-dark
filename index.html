@@ -1,0 +1,2159 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TEKNOLUVAS - Landing Page Responsiva</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Reset e Configurações Globais */
+        :root {
+            --color-primary: #60a5fa; /* azul claro */
+            --color-primary-dark: #3b82f6; /* azul original */
+            --color-text-primary: #f9fafb; /* cinza muito claro (quase branco) */
+            --color-text-secondary: #9ca3af; /* cinza claro */
+            --color-background-surface: #1f2937; /* cinza escuro para cards */
+            --color-background-main: #111827; /* cinza mais escuro para o fundo */
+            --color-white: #ffffff;
+            --color-border: #374151; /* cinza para bordas */
+            --color-error: #ef4444; /* vermelho claro para erros */
+            --font-family-sans: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-family-sans);
+            background-color: var(--color-background-main);
+            color: var(--color-text-primary);
+            line-height: 1.6;
+        }
+
+        /* Utilitários */
+        .container {
+            width: 100%;
+            max-width: 1140px;
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: 1.5rem;
+            padding-right: 1.5rem;
+        }
+
+        .section-padding {
+            padding-top: 5rem;
+            padding-bottom: 5rem;
+        }
+        
+        .text-center {
+            text-align: center;
+        }
+
+        .section-title {
+            font-size: 2.25rem;
+            font-weight: 800;
+            margin-bottom: 3rem;
+        }
+        
+        .section-title .highlight, .subsection-title .highlight {
+             color: var(--color-primary);
+        }
+        
+        .subsection-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+        
+        .related-products {
+            margin-top: 4rem;
+            padding: 3rem 2rem;
+            border-radius: 0.75rem;
+        }
+        
+        .related-products-bg-1, .related-products-bg-2, .related-products-bg-3, .related-products-bg-4 { background-color: transparent; }
+
+        .gradient-text {
+            color: var(--color-primary);
+        }
+
+        .btn {
+            display: inline-block;
+            font-weight: 700;
+            padding: 0.75rem 2rem;
+            border-radius: 9999px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+            font-size: 0.875rem;
+        }
+        
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: scale(1);
+        }
+
+        .btn-primary {
+            background-color: var(--color-primary);
+            color: var(--color-background-main);
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            background-color: var(--color-primary-dark);
+            transform: scale(1.05);
+        }
+        
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--color-primary);
+            border: 2px solid var(--color-primary);
+        }
+        
+        .btn-secondary:hover:not(:disabled) {
+            background-color: var(--color-primary);
+            color: var(--color-background-main);
+        }
+
+        .btn-neutral {
+            background-color: gray;
+            color: var(--color-text-primary);
+        }
+
+        .btn-neutral:hover:not(:disabled) {
+            background-color: var(--color-border);
+            transform: scale(1.05);
+        }
+        
+        /* Animação de Rolagem */
+        .scroll-animate {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            will-change: opacity, transform;
+        }
+
+        .scroll-animate.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+
+        /* Estilos do Header */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background-color: rgba(17, 24, 39, 0.8);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            box-shadow: 0 1px 2px rgba(0,0,0,0.5);
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        header.scrolled {
+            background-color: rgba(17, 24, 39, 0.95);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+        }
+
+        header nav.container {
+            display: flex;
+            align-items: center;
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            text-decoration: none;
+        }
+
+        .nav-menu-wrapper {
+            display: flex;
+            align-items: center;
+            margin-left: auto;
+            gap: 1rem;
+        }
+
+        .nav-links {
+            display: none; /* Oculto em telas pequenas */
+            gap: 2rem;
+        }
+        
+        .nav-links a {
+            position: relative;
+            color: var(--color-text-secondary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+            padding-bottom: 0.25rem;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            transform: scaleX(0);
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--color-primary);
+            transform-origin: bottom right;
+            transition: transform 0.25s ease-out;
+        }
+
+        .nav-links a:hover {
+            color: var(--color-text-primary);
+        }
+        
+        .nav-links a:hover::after {
+            transform: scaleX(1);
+            transform-origin: bottom left;
+        }
+        
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .cart-toggle, .menu-toggle {
+            position: relative;
+            display: block;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 9999px;
+            transition: background-color 0.2s ease-in-out;
+        }
+
+        .cart-toggle:hover, .menu-toggle:hover {
+            background-color: rgba(255,255,255,0.08);
+        }
+        
+        .cart-toggle .icon, .menu-toggle .icon {
+            width: 1.5rem;
+            height: 1.5rem;
+            color: var(--color-text-primary);
+        }
+        
+        .cart-badge {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background-color: var(--color-primary);
+            color: var(--color-background-main);
+            border-radius: 50%;
+            width: 1.25rem;
+            height: 1.25rem;
+            font-size: 0.75rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform: scale(0);
+            transition: transform 0.2s ease;
+        }
+        
+        .cart-badge.visible {
+            transform: scale(1);
+        }
+
+        /* Menu Mobile Animado */
+        .mobile-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background-color: var(--color-background-main);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -2px rgba(0, 0, 0, 0.4);
+            padding: 1rem 1.5rem;
+            border-top: 1px solid var(--color-border);
+            opacity: 0;
+            transform: translateY(-10px);
+            pointer-events: none;
+            visibility: hidden;
+            transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+        }
+
+        .mobile-menu.active {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+            visibility: visible;
+        }
+        
+        .mobile-menu a {
+            display: block;
+            text-align: center;
+            padding: 0.75rem 0;
+            color: var(--color-text-secondary);
+            text-decoration: none;
+            border-radius: 0.375rem;
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+        
+        .mobile-menu a:hover {
+            background-color: var(--color-background-surface);
+            color: var(--color-text-primary);
+        }
+
+        /* Estilos do Hero */
+        .hero-section {
+            background-color: transparent;
+            min-height: calc(100vh - 80px); /* Adjust based on header height */
+            display: flex;
+            align-items: center;
+        }
+        
+        .hero-content {
+            display: flex;
+            flex-direction: column-reverse;
+            align-items: center;
+            gap: 3rem;
+        }
+        
+        .hero-text {
+            text-align: center;
+        }
+        
+        .hero-text h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+        }
+        
+        .hero-text p {
+            font-size: 1.125rem;
+            color: var(--color-text-secondary);
+            max-width: 42rem;
+            margin: 0 auto 2rem;
+        }
+
+        .hero-image img {
+            width: 100%;
+            height: auto;
+            border-radius: 0.5rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            transition: transform 0.5s ease;
+        }
+
+        .hero-image img:hover {
+             transform: scale(1.05);
+        }
+
+        /* Keyframes for the scroll animation */
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* Logo Carousel Section */
+        .logo-carousel-section {
+            background-color: transparent;
+        }
+
+        .logo-carousel {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent 100%);
+        }
+
+        .logo-carousel-track {
+            display: flex;
+            width: calc(200px * 14); /* (logo-slide width) * (number of logos * 2) */
+            animation: scroll 35s linear infinite;
+        }
+
+        .logo-carousel:hover .logo-carousel-track {
+            animation-play-state: paused;
+        }
+
+        .logo-slide {
+            flex-shrink: 0;
+            width: 200px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0 1rem;
+        }
+
+        .logo-slide img {
+            max-width: 120px;
+            height: auto;
+            filter: grayscale(100%);
+            opacity: 0.6;
+            transition: filter 0.3s ease, opacity 0.3s ease;
+        }
+        
+        .logo-slide:hover img {
+            filter: grayscale(0%);
+            opacity: 1;
+        }
+
+        /* Estilos das Seções de Features (Sobre, FeatureOne, FeatureTwo) */
+        .feature-section {
+            background-color: transparent;
+        }
+        
+        .feature-section.alt-bg {
+             background-color: transparent;
+        }
+
+        .feature-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3rem;
+        }
+        
+        .feature-image, .feature-text {
+            width: 100%;
+        }
+
+        .feature-image img {
+            width: 100%;
+            height: auto;
+            border-radius: 0.5rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+        }
+        
+        .feature-text h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        
+        .feature-text p {
+            color: var(--color-text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.75;
+        }
+        
+        .feature-list {
+            list-style: none;
+            margin-top: 1.5rem;
+            display: grid;
+            gap: 1rem;
+        }
+
+        .feature-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            color: var(--color-text-secondary);
+        }
+
+        .feature-list .icon {
+            width: 1.25rem;
+            height: 1.25rem;
+            color: var(--color-primary);
+            flex-shrink: 0;
+            margin-top: 0.125rem; /* Ajuste vertical */
+        }
+
+
+        /* Estilos da Seção de Produtos */
+        .products-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+        
+        .product-card {
+            background-color: var(--color-background-surface);
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-0.5rem);
+        }
+        
+        .product-card img {
+            width: 100%;
+            height: 12rem;
+            object-fit: cover;
+        }
+        
+        .product-card-content {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+        
+        .product-card-content h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .product-card-content p {
+            color: var(--color-text-secondary);
+            flex-grow: 1;
+            margin-bottom: 1rem;
+        }
+        
+        .product-card-content .price {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--color-primary);
+            margin-bottom: 1rem;
+        }
+
+        .product-card-actions {
+            margin-top: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .product-card-actions .btn {
+            text-align: center;
+        }
+        
+        /* Estilos do Drawer (Orçamento) */
+        .drawer-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 998;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s;
+        }
+        
+        .drawer-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .drawer {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 100%;
+            max-width: 400px;
+            height: 100%;
+            background-color: var(--color-background-main);
+            box-shadow: -2px 0 8px rgba(0, 0, 0, 0.4);
+            z-index: 999;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .drawer.active {
+            transform: translateX(0);
+        }
+
+        .drawer-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--color-border);
+        }
+        
+        .drawer-header h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+
+        .drawer-close-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.25rem;
+        }
+        
+        .drawer-close-button .icon {
+            width: 1.5rem;
+            height: 1.5rem;
+            color: var(--color-text-secondary);
+        }
+        
+        .drawer-body {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 1.5rem;
+        }
+
+        /* Estilos do Orçamento */
+        .cart-empty-message {
+            text-align: center;
+            color: var(--color-text-secondary);
+            padding-top: 4rem;
+        }
+
+        .cart-items {
+            list-style: none;
+        }
+        
+        .cart-item {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            padding-bottom: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--color-border);
+        }
+        
+        .cart-item-image {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 0.375rem;
+        }
+        
+        .cart-item-details {
+            flex-grow: 1;
+        }
+        
+        .cart-item-details h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+        
+        .cart-item-details .price {
+            color: var(--color-text-secondary);
+            font-size: 0.875rem;
+        }
+        
+        .cart-item-quantity {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+        
+        .quantity-btn {
+            background-color: var(--color-border);
+            border: none;
+            border-radius: 50%;
+            width: 1.75rem;
+            height: 1.75rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            color: var(--color-text-primary);
+        }
+        
+        .quantity-btn:hover {
+            background-color: #4b5563;
+        }
+        
+        .cart-item-subtotal {
+            font-weight: 700;
+        }
+
+        .cart-footer {
+            padding: 1.5rem;
+            border-top: 1px solid var(--color-border);
+        }
+        
+        .budget-observations textarea {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--color-border);
+            border-radius: 0.375rem;
+            font-size: 1rem;
+            font-family: inherit;
+            resize: vertical;
+            min-height: 80px;
+            margin-top: 1rem;
+            background-color: var(--color-background-surface);
+            color: var(--color-text-primary);
+        }
+
+        #guest-info-form .form-group {
+            margin-bottom: 0.75rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.25rem;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            font-size: 0.875rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--color-border);
+            border-radius: 0.375rem;
+            font-size: 1rem;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            background-color: var(--color-background-surface);
+            color: var(--color-text-primary);
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 2px rgba(96, 165, 250, 0.3);
+        }
+
+        .form-group input.invalid {
+            border-color: var(--color-error);
+            box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.3);
+        }
+
+        .form-error-message {
+            color: var(--color-error);
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin-top: 0.25rem;
+            min-height: 1.2em; /* Reserve space to prevent layout shift */
+        }
+
+
+        .cart-total {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.125rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+        
+        .cart-checkout-button {
+            width: 100%;
+            padding: 1rem;
+            font-size: 1rem;
+        }
+
+        /* Estilos da Seção de Depoimentos */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+
+        .testimonial-card {
+            background-color: var(--color-background-surface);
+            border: 1px solid var(--color-border);
+            padding: 2.5rem 2rem 2rem;
+            border-radius: 0.75rem;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+        }
+
+        .testimonial-quote-icon {
+            position: absolute;
+            top: 1.5rem;
+            left: 1.5rem;
+            width: 2.5rem;
+            height: 2.5rem;
+            color: var(--color-primary);
+            opacity: 0.1;
+        }
+
+        .testimonial-text {
+            font-style: italic;
+            color: var(--color-text-secondary);
+            margin-bottom: 2rem;
+            flex-grow: 1;
+            line-height: 1.75;
+            padding-top: 1rem; /* Space from icon */
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-top: auto; /* Push to the bottom */
+        }
+
+        .testimonial-author img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--color-background-surface);
+            box-shadow: 0 0 0 2px var(--color-primary);
+        }
+
+        .testimonial-author-name {
+            font-weight: 700;
+            color: var(--color-text-primary);
+        }
+
+        .testimonial-author-title {
+            font-size: 0.875rem;
+            color: var(--color-text-secondary);
+        }
+
+        /* Estilos do Footer */
+        footer {
+            background-color: var(--color-background-main);
+            color: var(--color-text-secondary);
+            padding-top: 5rem;
+            border-top: 1px solid var(--color-border);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 3rem;
+        }
+
+        .footer-column .logo {
+            display: inline-block;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            font-weight: 800;
+            text-decoration: none;
+        }
+
+        .footer-column > p {
+            color: var(--color-text-secondary);
+            line-height: 1.7;
+            max-width: 320px;
+        }
+
+        .footer-column h4 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--color-text-primary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li:not(:last-child) {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-links a {
+            color: var(--color-text-secondary);
+            text-decoration: none;
+            position: relative;
+            padding-bottom: 2px;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--color-primary);
+        }
+
+        .footer-links a::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            transform: scaleX(0);
+            height: 1px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--color-primary);
+            transform-origin: bottom right;
+            transition: transform 0.25s ease-out;
+        }
+        
+        .footer-links a:hover::after {
+            transform: scaleX(1);
+            transform-origin: bottom left;
+        }
+
+        .newsletter-form {
+            display: flex;
+            margin-top: 1.5rem;
+        }
+
+        .newsletter-form input[type="email"] {
+            flex-grow: 1;
+            min-width: 0;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--color-border);
+            background-color: var(--color-background-surface);
+            color: var(--color-text-primary);
+            border-radius: 0.375rem 0 0 0.375rem;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        .newsletter-form input[type="email"]:focus {
+            border-color: var(--color-primary);
+        }
+
+        .newsletter-form button {
+            font-weight: 600;
+            padding: 0.75rem 1rem;
+            border: none;
+            background-color: var(--color-primary);
+            color: var(--color-background-main);
+            cursor: pointer;
+            border-radius: 0 0.375rem 0.375rem 0;
+            transition: background-color 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .newsletter-form button:hover {
+            background-color: var(--color-primary-dark);
+        }
+
+        .footer-column .social-links {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .footer-column .social-links a {
+            color: #9ca3af;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        .footer-column .social-links a:hover {
+            color: var(--color-white);
+            transform: translateY(-2px);
+        }
+        
+        .footer-column .social-links a[aria-label="Instagram"]:hover {
+            color: #E4405F; /* Instagram Pink */
+        }
+        .footer-column .social-links a[aria-label="Facebook"]:hover {
+            color: #1877F2; /* Facebook Blue */
+        }
+        .footer-column .social-links a[aria-label="WhatsApp"]:hover {
+            color: #25D366; /* WhatsApp Green */
+        }
+
+        .footer-column .social-links .icon {
+            width: 1.5rem;
+            height: 1.5rem;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid var(--color-border);
+            padding: 2rem 0;
+            margin-top: 4rem;
+            text-align: center;
+        }
+
+        .footer-bottom p {
+            font-size: 0.875rem;
+            color: #9ca3af;
+            margin: 0;
+        }
+
+        /* Media Queries para Responsividade */
+        @media (min-width: 768px) {
+            /* Header */
+            .nav-links {
+                display: flex;
+            }
+            .menu-toggle {
+                display: none;
+            }
+
+            /* Hero */
+            .hero-content {
+                flex-direction: row;
+                gap: 3rem;
+            }
+            .hero-text {
+                text-align: left;
+                width: 50%;
+            }
+            .hero-image {
+                width: 50%;
+            }
+            .hero-text h1 {
+                font-size: 3.75rem;
+            }
+            .hero-text p {
+                margin-left: 0;
+                margin-right: 0;
+            }
+            
+            /* Features */
+            .feature-content {
+                 flex-direction: row;
+            }
+            .feature-content.reverse {
+                flex-direction: row-reverse;
+            }
+            .feature-image, .feature-text {
+                width: 50%;
+            }
+            .feature-list {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem 2rem; /* espaçamento de linha e coluna */
+            }
+            
+            /* Produtos */
+            .products-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            /* Footer */
+             .footer-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 4rem;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            /* Produtos */
+            .products-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+
+            /* Depoimentos */
+            .testimonials-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            /* Footer */
+            .footer-grid {
+                grid-template-columns: 3fr 2fr 2fr 3fr;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    
+    <!-- ============================================= -->
+    <!--                    HEADER                     -->
+    <!-- ============================================= -->
+    <header>
+        <nav class="container">
+            <a href="#home" class="logo gradient-text">TEKNOLUVAS</a>
+            
+            <div class="nav-menu-wrapper">
+                <!-- Links para Desktop -->
+                <div class="nav-links">
+                    <a href="#home">     Início      </a>
+                    <a href="#solucoes"> Soluções    </a>
+                    <a href="#cabeça">   Cabeça      </a>
+                    <a href="#tronco">   Tronco      </a>
+                    <a href="#pernas">   Pernas      </a>
+                    <a href="#pes">      Pés         </a>
+                    <a href="#luvas">    Luvas       </a>
+                </div>
+
+                <div class="header-controls">
+                    <!-- Botão do Orçamento -->
+                    <button id="cart-button" class="cart-toggle" aria-label="Abrir orçamento" aria-controls="cart-drawer">
+                        <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+                        <span id="cart-badge" class="cart-badge">0</span>
+                    </button>
+
+                    <!-- Botão do Menu Mobile -->
+                    <button id="menu-button" class="menu-toggle" aria-label="Abrir menu" aria-controls="mobile-menu" aria-expanded="false">
+                        <svg id="menu-open-icon" class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                        <svg id="menu-close-icon" class="icon" style="display: none;" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    </button>
+                </div>
+            </div>
+        </nav>
+                   <!-- Menu Mobile -->
+              <div id="mobile-menu" class="mobile-menu">
+                    <a href="#home">     Início      </a>
+                    <a href="#solucoes"> Soluções    </a>
+                    <a href="#cabeça">   Cabeça      </a>
+                    <a href="#tronco">   Tronco      </a>
+                    <a href="#pernas">   Pernas      </a>
+                    <a href="#pes">      Pés         </a>
+                    <a href="#luvas">    Luvas       </a>
+                </div>
+    </header>
+
+    <main>
+        <!-- ============================================= -->
+        <!--                  HERO SECTION                 -->
+        <!-- ============================================= -->
+        <section id="home" class="hero-section section-padding">
+            <div class="container">
+                <div class="hero-content">
+                    <div class="hero-text scroll-animate">
+                        <h1>Os melhores <span class="gradient-text">EPI'S do mercado.</span></h1>
+                        <p>Construímos aplicações web bonitas, responsivas e de alto desempenho que impulsionam o crescimento e encantam os usuários.</p>
+                        <a href="#solucoes" class="btn btn-primary">Explore Nossas Soluções</a>
+                    </div>
+                    <div class="hero-image scroll-animate">
+                        <img src="epi´s.png">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================= -->
+        <!--              FEATURE SECTION 1                -->
+        <!-- ============================================= -->
+        <section id="solucoes" class="feature-section section-padding">
+            <div class="container">
+                <h2 class="section-title text-center scroll-animate">Nossos <span class="highlight">Produtos</span></h2>
+                <p class="text-center scroll-animate" style="max-width: 800px; margin: -2rem auto 4rem; color: var(--color-text-secondary);">
+                    não vendemos apenas Equipamentos de Proteção Individual — oferecemos segurança, confiança e eficiência para o seu negócio. 
+                    Cada produto que você adquire conosco vem acompanhado de soluções pensadas
+                    para facilitar sua rotina e garantir que sua equipe esteja sempre protegida e em conformidade com as normas.
+                </p>
+                
+                        <p > <center>
+                            <h2 class="section-title text-center scroll-animate">  <span class="highlight"> SEGUIMENTOS </span></h2>
+
+                            <h2>
+                                ✔️ Industrias de metalurgia     <br>
+                                ✔️ Petroquimica                 <br>
+                                ✔️ Fundições                    <br>
+                                ✔️ Construção civil             <br>
+                                ✔️ Mineração                    <br>
+                                ✔️ siderurgias                  <br>
+                            </h2>    
+
+                        </p></center><BR><BR>
+                
+                <br><br>
+
+                <div class="feature-content scroll-animate" section id="cabeça">
+
+                    <video video autoplay loop muted width="400" height="400" >
+                        <source src="nr10 cabeça.mp4" type="video/mp4">
+                    </video>
+
+                    <div class="feature-text">
+
+                        <h2 class="section-title text-center scroll-animate"> Proteção para <span class="highlight"> Cabeça</span></h2>
+
+                        <p> 
+                            ✔️ Equipamentos de proteção para a cabeça resistem a impactos<br>
+                            ✔️ Altas temperaturas e ambientes de risco.<br>
+                            ✔️ Garantem conforto e durabilidade, com soluções para indústria<br>
+                            ✔️ Atendem a normas técnicas, protegendo os trabalhadores
+                        </p>
+
+                        <ul class="feature-list">
+                            <li><svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span>Ótimo contra agentes abrasivos </span></li>
+                            <li><svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span>Conforto o tempo todo</span></li>
+                            <li><svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span>Defesa de agentes escoriantes</span></li>
+                            <li><svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span>Proteção termica</span></li>
+                            <li><svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span>Contra Riscos mecanicos</span></li>
+                       </ul>
+
+                    </div>
+
+                </div>
+                
+                <!-- PRODUTOS RELACIONADOS 1 -->
+                <div class="related-products related-products-bg-1 scroll-animate">
+                    <h3 class="subsection-title">Produtos <span class="highlight">Relacionados</span></h3>
+                    <div class="products-grid">
+                        
+                        <div class="product-card scroll-animate">
+                            
+                            <img src="nuca1.png">
+
+                            <div class="product-card-content">
+                                <h3>Capuz Soldador TKS 01 – Teknoluvas</h3>
+
+                                <p>
+                                    ✔️  Confeccionado em brim antichama       <br>
+                                    ✔️  Linha de Aramida                      <br>
+                                    ✔️  Fechamento em velcro e elastico       <br> 
+                                    ✔️  Conforto duradouro                    <br>
+                                    ✔️  Desenvolvido para trabalhos com solda <br><br>
+                                    🏭 <b>DIRETO DA FABRICA </b>
+                                </p>
+
+                                <a href="https://caepi.mte.gov.br/" target="_blank" rel="noopener noreferrer" class="btn btn-neutral">Consultar C.A.</a><br>
+
+                                <button class="btn btn-primary add-to-cart-btn" data-product-id="1" data-product-name="Capuz tks1 / código 4362 " 
+                                data-product-image="https://teknoluvas.com.br/wp-content/uploads/2023/12/capuz_soldador_tks_01_teknoluvas_131_1_7f955598883afbd0fc4622afdac9f4e3_20230823104839.jpg">Adicionar ao Orçamento</button>
+                            </div>
+
+                        </div>
+
+                        <div class="product-card scroll-animate">
+                           
+                            <img src="nuca2.png">
+
+                            <div class="product-card-content">
+                                <h3>Capuz Soldador TKS 02 – Teknoluvas</h3>
+
+                                <p>                                    
+                                    ✔️  Confeccionado em brim antichama       <br>
+                                    ✔️  Linha de Aramida                      <br>
+                                    ✔️  Fechamento em velcro e elastico       <br> 
+                                    ✔️  Conforto duradouro                    <br>
+                                    ✔️  Desenvolvido para trabalhos com solda <br><br>
+                                    🏭 <b>DIRETO DA FABRICA </b>
+                                </p>
+                                
+                                <a href="https://caepi.mte.gov.br/" target="_blank" rel="noopener noreferrer" class="btn btn-neutral">Consultar C.A.</a><br>
+                              
+                                <button class="btn btn-primary add-to-cart-btn" data-product-id="2" data-product-name="Capuz tks2 / código 8705 " 
+                                data-product-image="https://teknoluvas.com.br/wp-content/uploads/2023/12/capuz_soldador_tks_02_teknoluvas_133_1_952bd5247a7c3f75c2de998e05662b23_20230823104840.jpg">Adicionar ao Orçamento</button>
+                            </div>
+
+                        </div>
+ 
+                        <div class="product-card scroll-animate">
+                            
+                            <img src="nuca tk3.png">
+
+                            <div class="product-card-content">
+                                <h3>Capuz Soldador TKS 03 – Teknoluvas</h3>
+
+                                <p>                                    
+                                    ✔️  Confeccionado em brim antichama       <br>
+                                    ✔️  Linha de Aramida                      <br>
+                                    ✔️  Fechamento em velcro e elastico       <br> 
+                                    ✔️  Conforto duradouro                    <br>
+                                    ✔️  Desenvolvido para trabalhos com solda <br><br>
+                                    🏭 <b>DIRETO DA FABRICA </b>
+                                </p>
+                                
+                                <a href="https://caepi.mte.gov.br/" target="_blank" rel="noopener noreferrer" class="btn btn-neutral">Consultar C.A.</a><br>
+                              
+                                <button class="btn btn-primary add-to-cart-btn" data-product-id="3" data-product-name="Capuz tks3 / código 8145 " 
+                                data-product-image="https://teknoluvas.com.br/wp-content/webp-express/webp-images/uploads/2025/10/nuca-tk3-1.png.webp">Adicionar ao Orçamento</button>
+                            </div>
+
+                        </div>
+
+                         <div class="product-card scroll-animate">
+                            
+                            <img src="nuca3.png">
+
+                            <div class="product-card-content">
+                                <h3>Capuz Modelo Tradicional – Teknoluvas</h3>
+                                <p>
+                                    ✔️  tecido de brim na cor azul            <br>
+                                    ✔️  Contra Abrasivos e Escoriantes        <br>
+                                    ✔️  sem fechamento                        <br> 
+                                    ✔️  Conforto duradouro                    <br>
+                                    ✔️  Desenvolvido para trabalhos mecanicos <br><br>
+                                    🏭 <b>DIRETO DA FABRICA </b>
+                                </p>
+                                
+                                <a href="https://caepi.mte.gov.br/" target="_blank" rel="noopener noreferrer" class="btn btn-neutral">Consultar C.A.</a><br>
+                              
+                                <button class="btn btn-primary add-to-cart-btn" data-product-id="4" data-product-name="Capuz Modelo Tradicional / código 3470 " 
+                                data-product-image="https://teknoluvas.com.br/wp-content/uploads/2023/12/capuz_para_soldador_modelo_tradicional_teknoluvas_135_1_20230823104841.jpg">Adicionar ao Orçamento</button>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- ============================================= -->
+        <!--                 FEATURE SECTION 2             -->
+        <!-- ============================================= -->
+        <section id="tronco" class="feature-section alt-bg section-padding">
+            <div class="container">
+                <div class="feature-content reverse scroll-animate">
+
+                    <video video autoplay loop muted width="400" height="400" >
+                        <source src="nr10 tronco.mp4" type="video/mp4">
+                    </video>
+
+                    <div class="feature-text">
+
+                        <h2 class="section-title text-center scroll-animate"> Proteção para <span class="highlight"> Tronco</span></h2>
+
+                        <p> 
+                           ✔️  A proteção do tronco é essencial em ambientes de risco como abrasão, calor, químicos e faíscas.<br>
+                           ✔️  Aventais, jaquetas e blusões são confeccionados com materiais resistentes e certificados.<br>
+                           ✔️  As peças oferecem segurança robusta ao trabalhador sem comprometer o conforto.<br>
+                           ✔️  Cada item é projetado para garantir mobilidade e durabilidade máxima no uso diário.
+                        </p>
+
+                        <ul class="feature-list">
+                            <li><svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span>Ótimo contra agentes abrasivos </span></li>
+                            <li><svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span>Conforto o tempo todo</span></li>
+                            <li><svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span>Defesa de agentes escoriantes</span></li>
+                            <li><svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span>Proteção termica</span></li>
+                            <li><svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span>Contra Riscos mecanicos</span></li>
+                       </ul>
+
+                    </div>
+
+                </div>
+
+                <!-- PRODUTOS RELACIONADOS 2 -->
+                <div class="related-products related-products-bg-2 scroll-animate">
+                    <h3 class="subsection-title">Produtos <span class="highlight">Relacionados</span></h3>
+
+                    <div class="products-grid">
+
+                        <div class="product-card scroll-animate">
+
+                            <img src="peito1.png">
+
+                            <div class="product-card-content">
+                                <h3>MANGOTE DE BRIM – Teknoluvas</h3>
+                                <p>
+                                    ✔️  tecido de brim na cor azul ou tecido retardante a chamas<br>
+                                    ✔️  Contra Abrasivos e Escoriantes                          <br>
+                                    ✔️  com elástico para melhor ajuste                         <br> 
+                                    ✔️  Conforto duradouro                                      <br>
+                                    ✔️  Desenvolvido para trabalhos Industriais                 <br><br>
+                                    🏭 <b>DIRETO DA FABRICA </b>
+                                </p>
+
+                                <a href="https://caepi.mte.gov.br/" target="_blank" rel="noopener noreferrer" class="btn btn-neutral">Consultar C.A.</a><br>
+
+                                <button class="btn btn-primary add-to-cart-btn" data-product-id="5" data-product-name="MANGOTE DE BRIM / código 3995 " 
+                                data-product-image="https://teknoluvas.com.br/wp-content/uploads/2023/12/MANGOTES.png">Adicionar ao Orçamento</button>
+                            </div>
+
+                        </div>
+
+                        <div class="product-card scroll-animate">
+
+                            <img src="peito2.png">
+
+                            <div class="product-card-content">
+
+                                <h3>Blusão de Raspa e Brim Antichamas </h3>
+                                <p>                                    
+                                    ✔️  tecido de brim na cor azul com raspa Ignifugada <br>
+                                    ✔️  Contra Abrasivos e Escoriantes                  <br>
+                                    ✔️  Costurado com linha de aramida                  <br> 
+                                    ✔️  Conforto duradouro                              <br>
+                                    ✔️  Desenvolvido para trabalhos de Soldagem         <br><br>
+                                    🏭 <b>DIRETO DA FABRICA </b>
+                                </p>
+
+                                <a href="https://caepi.mte.gov.br/" target="_blank" rel="noopener noreferrer" class="btn btn-neutral">Consultar C.A.</a><br>
+
+                                <button class="btn btn-primary add-to-cart-btn" data-product-id="6" data-product-name="Blusão de Raspa e Brim Antichamas / código 10240 " 
+                                data-product-image="https://teknoluvas.com.br/wp-content/uploads/2023/12/blusao_de_raspa_e_brim_antichamas_teknoluvas_55_1_a3355f935b4a292c4b2723f67ef7c85e_20230823105230.jpg">Adicionar ao Orçamento</button>
+                            </div>
+
+                        </div>
+
+                        <div class="product-card scroll-animate">
+
+                            <img src="peito3.png">
+
+                            <div class="product-card-content">
+                                <h3>Blusão de Brim Antichamas – Teknoluvas</h3>
+                                <p>                                     
+                                    ✔️  tecido de Brim Antichamas na cor azul   <br>
+                                    ✔️  Contra Abrasivos e Escoriantes          <br>
+                                    ✔️  Costurado com linha de aramida          <br> 
+                                    ✔️  Conforto duradouro                      <br>
+                                    ✔️  Desenvolvido para trabalhos de Soldagem <br><br>
+                                    🏭 <b>DIRETO DA FABRICA </b>
+                                </p>
+
+                                <a href="https://caepi.mte.gov.br/" target="_blank" rel="noopener noreferrer" class="btn btn-neutral">Consultar C.A.</a><br>
+
+                                <button class="btn btn-primary add-to-cart-btn" data-product-id="7" data-product-name="Blusão de Brim Antichamas / código 4858 " 
+                                data-product-image="https://teknoluvas.com.br/wp-content/uploads/2023/12/blusao_de_brim_antichamas_com_ziper_tratorado_teknoluvas_2559_1_a6352403ab188db98002fec46540880d_20230823105228.jpg">Adicionar ao Orçamento</button>
+                            </div>
+
+                        </div>
+
+                        <div class="product-card scroll-animate">
+
+                            <img src="peito4.png">
+
+                            <div class="product-card-content">
+                                <h3>Blusão de Raspa – Teknoluvas</h3>
+                                <p>                                     
+                                    ✔️  confeccionado em raspa groupon especial <br>
+                                    ✔️  Contra Abrasivos e Escoriantes          <br>
+                                    ✔️  Costurado com linha de algodão          <br> 
+                                    ✔️  Conforto duradouro                      <br>
+                                    ✔️  Fechamento em velcro                    <br>
+                                    ✔️  Desenvolvido para trabalhos mecanicos   <br><br>
+                                    🏭 <b>DIRETO DA FABRICA </b>
+                                </p>
+
+                                <a href="https://caepi.mte.gov.br/" target="_blank" rel="noopener noreferrer" class="btn btn-neutral">Consultar C.A.</a><br>
+
+                                <button class="btn btn-primary add-to-cart-btn" data-product-id="8" data-product-name="Blusão de Raspa / código 5957 " 
+                                data-product-image="https://teknoluvas.com.br/wp-content/uploads/2023/12/blusao_de_raspa_teknoluvas_51_1_c3cc2b5721f389c78054f36fab379f55_20230823105227.jpg">Adicionar ao Orçamento</button>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+        
+        <!-- ============================================= -->
+        <!--                 FEATURE SECTION 3             -->
+        <!-- ============================================= -->
+        <section id="pernas" class="feature-section section-padding">
+            <div class="container">
+
+                <div class="feature-content scroll-animate">
+
+                    <video video autoplay loop muted width="400" height="400" >
+                        <source src="nr10 perna.mp4" type="video/mp4">
+                    </video>
+
+                    <div class="feature-text">
+
+                        <h2 class="section-title text-center scroll-animate"> Proteção para <span class="highlight"> Pernas</span></h2>
+
+                        <p> 
+                           ✔️  A segurança das pernas é essencial em ambientes industriais para evitar lesões<br>
+                           ✔️  Protege contra cortes, abrasões, respingos químicos e calor intenso.<br>
+                           ✔️  Equipamentos como calças, perneiras e aventais são de materiais resistentes e certificados.<br>
+                           ✔️  Oferecem proteção robusta sem comprometer a mobilidade do trabalhador.
+                        </p>
+
+                        <ul class="feature-list">
+                            <li><svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span>Ótimo contra agentes abrasivos </span></li>
+                            <li><svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span>Conforto o tempo todo</span></li>
+                            <li><svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span>Defesa de agentes escoriantes</span></li>
+                            <li><svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span>Proteção termica</span></li>
+                            <li><svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span>Contra Riscos mecanicos</span></li>
+                        </ul>
+                    </div>
+
+                </div>
+                <!-- PRODUTOS RELACIONADOS 3 -->
+                <div class="related-products related-products-bg-3 scroll-animate">
+                    <h3 class="subsection-title">Produtos <span class="highlight">Relacionados</span></h3>
+                    <div class="products-grid">
+
+                        <div class="product-card scroll-animate">
+
+                            <img src="per1.png">
+
+                            <div class="product-card-content">
+                                <h3>Avental Frontal de Raspa 1,00 x 0,60 m</h3>
+                                <p>                                    
+                                    ✔️  confeccionado em raspa                  <br>
+                                    ✔️  Contra Abrasivos e Escoriantes          <br>
+                                    ✔️  Costurado com linha de algodão          <br> 
+                                    ✔️  Conforto duradouro                      <br>
+                                    ✔️  Desenvolvido para trabalhos mecanicos   <br>
+                                    ✔️  Tambem no tamanho de 1,20 x 60          <br><br>
+                                    🏭 <b>DIRETO DA FABRICA </b>
+                                </p>
+
+                                <a href="https://caepi.mte.gov.br/" target="_blank" rel="noopener noreferrer" class="btn btn-neutral">Consultar C.A.</a><br>
+
+                                <button class="btn btn-primary add-to-cart-btn" data-product-id="9" data-product-name=" Blusão de Raspa / código 3729 " 
+                                data-product-image="https://teknoluvas.com.br/wp-content/uploads/2023/12/2-1.jpg">Adicionar ao Orçamento</button>
+                            </div>
+
+                        </div>
+
+                        <div class="product-card scroll-animate">
+
+                            <img src="per2.png">
+
+                            <div class="product-card-content">
+                                <h3>Calça em Brim Antichamas – Teknoluvas</h3>
+                                 
+                                <p>                                    
+                                    ✔️  tecido de Brim Antichamas na cor azul   <br>
+                                    ✔️  Contra Abrasivos e Escoriantes          <br>
+                                    ✔️  Costurado com linha de aramida          <br> 
+                                    ✔️  Conforto duradouro                      <br>
+                                    ✔️  Desenvolvido para trabalhos de Soldagem <br><br>
+                                    🏭 <b>DIRETO DA FABRICA </b></p>
+
+                                <a href="https://caepi.mte.gov.br/" target="_blank" rel="noopener noreferrer" class="btn btn-neutral">Consultar C.A.</a><br>
+
+                                <button class="btn btn-primary add-to-cart-btn" data-product-id="10" data-product-name=" Calça em Brim Antichamas / código 4592 " 
+                                data-product-image="https://teknoluvas.com.br/wp-content/uploads/2023/12/calca_em_brim_antichamas_teknoluvas_99_1_20230823105228.jpg">Adicionar ao Orçamento</button>
+                            </div>
+
+                        </div>
+
+                        <div class="product-card scroll-animate">
+
+                            <img src="per 5.png">
+
+                            <div class="product-card-content">
+                                <h3>Calça de Vaqueta – Teknoluvas</h3>
+                                <p>                                    
+                                    ✔️  Confeccionada em vaqueta de ótima qualidade     <br>
+                                    ✔️  Contra Abrasivos e Escoriantes                  <br>
+                                    ✔️  Costurada com linha especial de kevlar          <br> 
+                                    ✔️  Conforto duradouro                              <br>
+                                    ✔️  Desenvolvido para trabalhos de siderurgias      <br><br>
+                                    🏭 <b>DIRETO DA FABRICA </b>
+                                </p>
+                                <a href="https://caepi.mte.gov.br/" target="_blank" rel="noopener noreferrer" class="btn btn-neutral">Consultar C.A.</a><br>
+
+                                <button class="btn btn-primary add-to-cart-btn" data-product-id="11" data-product-name=" Calça de Vaqueta / código 8966 " 
+                                data-product-image="https://teknoluvas.com.br/wp-content/uploads/2023/12/calca_de_vaqueta_teknoluvas_921_1_20230823105228.jpg">Adicionar ao Orçamento</button>
+                            </div>
+
+                        </div>
+
+                        <div class="product-card scroll-animate">
+
+                            <img src="per4.png">
+
+                            <div class="product-card-content">
+
+                                <h3>Calça em Brim com Proteção em Raspa</h3>
+                                <p>                                    
+                                    ✔️  tecido de brim na cor azul com raspa Ignifugada <br>
+                                    ✔️  Contra Abrasivos e Escoriantes                  <br>
+                                    ✔️  Costurado com linha de aramida                  <br> 
+                                    ✔️  Conforto duradouro                              <br>
+                                    ✔️  Desenvolvido para trabalhos de Soldagem         <br><br>
+                                    🏭 <b>DIRETO DA FABRICA </b>
+                                </p>
+
+                                <a href="https://caepi.mte.gov.br/" target="_blank" rel="noopener noreferrer" class="btn btn-neutral">Consultar C.A.</a><br>
+
+                                <button class="btn btn-primary add-to-cart-btn" data-product-id="12" data-product-name=" Calça em Brim Antichamas / código 4504 " 
+                                data-product-image="https://teknoluvas.com.br/wp-content/webp-express/webp-images/uploads/2023/12/calca_em_brim_antichamas_com_protecao_em_raspa_teknoluvas_103_1_20230823105228.jpg.webp">Adicionar ao Orçamento</button>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+        
+        <!-- ============================================= -->
+        <!--                 FEATURE SECTION 4             -->
+        <!-- ============================================= -->
+        <section id="pes" class="feature-section alt-bg section-padding">
+            <div class="container">
+                <div class="feature-content reverse scroll-animate">
+
+                    <video video autoplay loop muted width="400" height="400" >
+                        <source src="nr10 pes.mp4" type="video/mp4">
+                    </video>
+
+                    <div class="feature-text">
+                        <h2 class="section-title text-center scroll-animate"> Proteção para <span class="highlight"> Pés</span></h2>
+
+                        <p>
+                           ✔️  A segurança dos membros inferiores é crucial em ambientes industriais.<br>
+                           ✔️  EPIs específicos são essenciais para proteger pés e pernas.<br>
+                           ✔️  Exemplos de EPIs incluem coturnos, perneiras e calças especiais.<br>
+                           ✔️  Eles defendem contra riscos como cortes, impactos, respingos de solda e calor.
+                        </p>
+                        <ul class="feature-list">
+                            <li><svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span>Ótimo contra agentes abrasivos </span></li>
+                            <li><svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span>Conforto o tempo todo</span></li>
+                            <li><svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span>Defesa de agentes escoriantes</span></li>
+                            <li><svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span>Proteção termica</span></li>
+                            <li><svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span>Contra Riscos mecanicos</span></li>
+                       </ul>
+
+                    </div>
+
+                </div>
+
+                <!-- PRODUTOS RELACIONADOS 4 -->
+                <div class="related-products related-products-bg-4 scroll-animate">
+                    <h3 class="subsection-title">Produtos <span class="highlight">Relacionados</span></h3>
+                    <div class="products-grid">
+
+                        <div class="product-card scroll-animate">
+
+                            <img src="pé 5.png">
+
+                            <div class="product-card-content">
+                                <h3>Botina de Segurança em Vaqueta </h3>
+                                <p>                                    
+                                    ✔️  Feita com couro grupon e poliuretano de alta qualidade   <br>
+                                    ✔️  Contra Abrasivos e Escoriantes                           <br>
+                                    ✔️  Palmilha antiperfuração e solado bi densidade            <br> 
+                                    ✔️  Internamente acolchoada                                  <br> 
+                                    ✔️  Biqueira de composite                                    <br><br>
+                                    🏭 <b>DIRETO DA FABRICA </b>
+                                </p>
+
+                                <a href="https://caepi.mte.gov.br/" target="_blank" rel="noopener noreferrer" class="btn btn-neutral">Consultar C.A.</a><br>
+
+                                <button class="btn btn-primary add-to-cart-btn" data-product-id="13" data-product-name=" Botina de Segurança em Vaqueta  / código 10179 " 
+                                data-product-image="https://teknoluvas.com.br/wp-content/uploads/2023/12/botina_de_seguranca_de_vaqueta_c_bico_de_composite_antiperfuracao_santos_sbp_sra_delta_plus_5453_2_e8bc71f4d114b1dee276054b08818c84_20230823104856.jpg">Adicionar ao Orçamento</button></div>
+                        </div>
+
+                        <div class="product-card scroll-animate">
+
+                            <img src="pé 2.png">
+
+                            <div class="product-card-content">
+                                <h3>PERNEIRA DE RASPA PREMIUM</h3>
+                                <p>                                    
+                                    ✔️  Confeccionada em raspa tipo grupon especial <br>
+                                    ✔️  Contra Abrasivos e Escoriantes              <br>
+                                    ✔️  Fechamento em velcro                        <br> 
+                                    ✔️  Possui tira para fixação                    <br>
+                                    ✔️  Conforto duradouro                          <br>
+                                    ✔️  Desenvolvido para trabalhos mecanicos       <br><br>
+                                    🏭 <b>DIRETO DA FABRICA </b>
+                                </p>
+
+                                <a href="https://caepi.mte.gov.br/" target="_blank" rel="noopener noreferrer" class="btn btn-neutral">Consultar C.A.</a><br>
+
+                                <button class="btn btn-primary add-to-cart-btn" data-product-id="14" data-product-name=" PERNEIRA DE RASPA PREMIUM / código 5956 " 
+                                data-product-image="https://luskabast0.github.io/orcamentos/p%C3%A9%202.png">Adicionar ao Orçamento</button></div>
+                        </div>
+
+                        <div class="product-card scroll-animate">
+
+                            <img src="pé 3.png">
+
+                            <div class="product-card-content">
+                                <h3>Perneira de Raspa Ignifugada</h3>
+                                <p>                                    
+                                    ✔️  Confeccionada em raspa ignifugada           <br>
+                                    ✔️  Contra Abrasivos e Escoriantes              <br>
+                                    ✔️  Fechamento em velcro                        <br> 
+                                    ✔️  Possui tira para fixação                    <br>
+                                    ✔️  Conforto duradouro                          <br>
+                                    ✔️  Desenvolvido para trabalhos de Soldagem     <br><br>
+                                    🏭 <b>DIRETO DA FABRICA </b>
+                                </p>
+
+                                <a href="https://caepi.mte.gov.br/" target="_blank" rel="noopener noreferrer" class="btn btn-neutral">Consultar C.A.</a><br>
+
+                                <button class="btn btn-primary add-to-cart-btn" data-product-id="15" data-product-name=" Perneira de Raspa Ignifugada / código 7534 " 
+                                data-product-image="https://teknoluvas.com.br/wp-content/uploads/2023/12/perneira_de_raspa_ignifugada_p_alta_temperatura_559_1_20230823104926.jpg">Adicionar ao Orçamento</button></div>
+                        </div>
+
+                        <div class="product-card scroll-animate">
+
+                            <img src="pé 4.png">
+
+                            <div class="product-card-content">
+                                <h3>Perneira de Vaqueta Especial</h3>
+                                <p>                                    
+                                    ✔️  Confeccionado em vaqueta especial           <br>
+                                    ✔️  Contra Abrasivos e Escoriantes              <br>
+                                    ✔️  Fechamento em velcro                        <br> 
+                                    ✔️  Possui tira para fixação                    <br>
+                                    ✔️  Conforto duradouro                          <br>
+                                    ✔️  Desenvolvido para trabalhos em Industrias   <br><br>
+                                    🏭 <b>DIRETO DA FABRICA </b>
+                                </p>
+
+                                <a href="https://caepi.mte.gov.br/" target="_blank" rel="noopener noreferrer" class="btn btn-neutral">Consultar C.A.</a><br>
+
+                                <button class="btn btn-primary add-to-cart-btn" data-product-id="16" data-product-name=" Perneira de Vaqueta Especial / código 5659 " 
+                                data-product-image="https://teknoluvas.com.br/wp-content/webp-express/webp-images/uploads/2023/12/perneira_de_vaqueta_561_1_20230823104929.jpg.webp">Adicionar ao Orçamento</button></div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- ============================================= -->
+        <!--                TESTIMONIALS SECTION           -->
+        <!-- ============================================= -->
+        <section id="depoimentos" class="feature-section alt-bg section-padding">
+            <div class="container">
+                <h2 class="section-title text-center scroll-animate">O Que Nossos <span class="highlight">Clientes Dizem</span></h2>
+                <div class="testimonials-grid">
+                    <!-- Testimonial 1 -->
+                    <div class="testimonial-card scroll-animate">
+                        <svg class="testimonial-quote-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor"><path d="M0 216C0 149.7 53.7 96 120 96h8c17.7 0 32 14.3 32 32s-14.3 32-32 32h-8c-30.9 0-56 25.1-56 56v8h64c35.3 0 64 28.7 64 64v64c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V216zm256 0c0-66.3 53.7-120 120-120h8c17.7 0 32 14.3 32 32s-14.3 32-32 32h-8c-30.9 0-56 25.1-56 56v8h64c35.3 0 64 28.7 64 64v64c0 35.3-28.7 64-64 64H320c-35.3 0-64-28.7-64-64V216z"/></svg>
+                        <p class="testimonial-text">"A TEKNOLUVAS transformou nossa presença online. O novo site não só é visualmente impressionante, mas também incrivelmente rápido e fácil de usar. Os resultados falam por si: nosso engajamento aumentou 40% em três meses."</p>
+                        <div class="testimonial-author">
+                            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=128&h=128&auto=format&fit=crop" alt="Foto de Maria Silva">
+                            <div>
+                                <p class="testimonial-author-name">Maria Silva</p>
+                                <p class="testimonial-author-title">CEO, InovaTech</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Testimonial 2 -->
+                    <div class="testimonial-card scroll-animate">
+
+                        <video video autoplay loop muted width="400" height="400" >
+                            <source src="NR BOY.mp4" type="video/mp4">
+                        </video>
+
+                    </div>
+                    
+                    <!-- Testimonial 3 -->
+                    <div class="testimonial-card scroll-animate">
+                         <svg class="testimonial-quote-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor"><path d="M0 216C0 149.7 53.7 96 120 96h8c17.7 0 32 14.3 32 32s-14.3 32-32 32h-8c-30.9 0-56 25.1-56 56v8h64c35.3 0 64 28.7 64 64v64c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V216zm256 0c0-66.3 53.7-120 120-120h8c17.7 0 32 14.3 32 32s-14.3 32-32 32h-8c-30.9 0-56 25.1-56 56v8h64c35.3 0 64 28.7 64 64v64c0 35.3-28.7 64-64 64H320c-35.3 0-64-28.7-64-64V216z"/></svg>
+                        <p class="testimonial-text">"Desde o e-commerce até a análise de dados com IA, a parceria com a TEKNOLUVAS tem sido um divisor de águas. Eles não são apenas fornecedores, são verdadeiros parceiros estratégicos que entendem nosso negócio."</p>
+                        <div class="testimonial-author">
+                            <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=128&h=128&auto=format&fit=crop" alt="Foto de Ana Costa">
+                            <div>
+                                <p class="testimonial-author-name">Ana Costa</p>
+                                <p class="testimonial-author-title">Gerente de Marketing, VarejoGlobal</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ============================================= -->
+        <!--                  LOGO CAROUSEL                -->
+        <!-- ============================================= -->
+        <section id="parceiros" class="logo-carousel-section section-padding">
+            <div class="container">
+                <h2 class="section-title text-center scroll-animate">Parceiros e <span class="highlight">Tecnologias</span></h2>
+                <div class="logo-carousel scroll-animate">
+                    <div class="logo-carousel-track">
+
+                        <!-- Logos (Set 1) -->
+                        <div class="logo-slide"><img src="logo 1.png"     alt="Logo da React">      </div>
+                        <div class="logo-slide"><img src="logo 2.png"   alt="Logo da Node.js">      </div>
+                        <div class="logo-slide"><img src="logo 3.png"       alt="Logo da AWS">      </div>
+                        <div class="logo-slide"><img src="logo 4.png"   alt="Logo da Next.js">      </div>
+                        <div class="logo-slide"><img src="logo 5.png"     alt="Logo da Figma">      </div>
+                        <div class="logo-slide"><img src="logo 6.png"    alt="Logo da Stripe">      </div>
+
+                        
+                        <!-- Logos (Set 2 for infinite loop) -->
+                        <div class="logo-slide"><img src="logo 1.png"     alt="Logo da React">      </div>
+                        <div class="logo-slide"><img src="logo 2.png"   alt="Logo da Node.js">      </div>
+                        <div class="logo-slide"><img src="logo 3.png"       alt="Logo da AWS">      </div>
+                        <div class="logo-slide"><img src="logo 4.png"   alt="Logo da Next.js">      </div>
+                        <div class="logo-slide"><img src="logo 5.png"     alt="Logo da Figma">      </div>
+                        <div class="logo-slide"><img src="logo 6.png"    alt="Logo da Stripe">      </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <!-- ============================================= -->
+    <!--          DRAWER OVERLAY (SHARED)              -->
+    <!-- ============================================= -->
+    <div id="drawer-overlay" class="drawer-overlay"></div>
+
+    <!-- ============================================= -->
+    <!--                 BUDGET DRAWER                 -->
+    <!-- ============================================= -->
+    <aside id="cart-drawer" class="drawer" aria-labelledby="cart-heading">
+        <div class="drawer-header">
+            <h3 id="cart-heading">Meu Orçamento</h3>
+            <button id="cart-close-button" class="drawer-close-button" aria-label="Fechar orçamento">
+                <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+        </div>
+        <div class="drawer-body">
+            <ul id="cart-items" class="cart-items">
+                <!-- Itens do orçamento serão inseridos aqui via JS -->
+            </ul>
+             <div class="budget-observations">
+                <label for="budget-observations-textarea" style="font-weight: 600; font-size: 0.875rem; margin-bottom: 0.5rem; display: block;">Observações:</label>
+                <textarea id="budget-observations-textarea" placeholder="Ex: Preciso de customizações, etc."></textarea>
+            </div>
+            <div id="cart-empty-message" class="cart-empty-message" style="display: none;">
+                <p>Seu orçamento está vazio.</p>
+            </div>
+        </div>
+        <div class="cart-footer">
+            <div id="guest-info-form">
+                <p style="font-size: 0.9rem; color: var(--color-text-secondary); margin-bottom: 1rem;">Preencha seus dados para enviar o orçamento.</p>
+                <div class="form-group">
+                    <label for="guest-name">Nome</label>
+                    <input type="text" id="guest-name" name="guest-name" required>
+                    <div id="guest-name-error" class="form-error-message"></div>
+                </div>
+                 <div class="form-group">
+                    <label for="guest-email">Email</label>
+                    <input type="email" id="guest-email" name="guest-email" required>
+                    <div id="guest-email-error" class="form-error-message"></div>
+                </div>
+                <div class="form-group">
+                    <label for="guest-phone">Telefone (com DDD)</label>
+                    <input type="tel" id="guest-phone" name="guest-phone" required>
+                     <div id="guest-phone-error" class="form-error-message"></div>
+                </div>
+            </div>
+            <button class="btn btn-primary cart-checkout-button">Enviar Orçamento via WhatsApp</button>
+        </div>
+    </aside>
+
+    <!-- ============================================= -->
+    <!--                     FOOTER                    -->
+    <!-- ============================================= -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <!-- Coluna 1: Sobre -->
+                <div class="footer-column">
+                    <a href="#home" class="logo gradient-text">TEKNOLUVAS</a>
+                    <p>Criando experiências digitais inovadoras para impulsionar o seu negócio.</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="Instagram"><svg class="icon" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Instagram</title><path d="M12 0C8.74 0 8.333.015 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.012 8.333 0 8.74 0 12s.015 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126s1.338.935 2.126 1.384c.766.296 1.636.499 2.913.558C8.333 23.988 8.74 24 12 24s3.667-.015 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.717 2.126-1.384s.935-1.338 1.384-2.126c.296-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.015-3.667-.072-4.947c-.06-1.277-.262-2.148-.558-2.913-.306-.789-.717-1.459-1.384-2.126S20.65.935 21.86.63c-.765-.297-1.636-.499-2.913-.558C15.667.012 15.26 0 12 0zm0 2.16c3.203 0 3.585.016 4.85.071 1.17.055 1.805.249 2.227.415.562.217.96.477 1.382.896.419.42.679.819.896 1.381.164.422.36 1.057.413 2.227.057 1.266.07 1.646.07 4.85s-.015 3.585-.074 4.85c-.056 1.17-.249 1.805-.413 2.227-.217.562-.477.96-.896 1.382-.42.419-.82.679-1.38.896-.423.164-1.057.36-2.227.413-1.266.057-1.646.07-4.85.07s-3.585-.015-4.85-.074c-1.17-.056-1.805-.249-2.227-.413-.562-.217-.96-.477-1.382-.896-.419-.42-.679-.82-1.381-.896-.164-.423-.36-1.057-.413-2.227-.057-1.266-.07-1.646-.07-4.85s.015-3.585.074-4.85c.056-1.17.249-1.805.413-2.227.217-.562.477.96.896-1.382.42-.419.819-.679.896-1.381.423-.164 1.057.36 2.227-.413C8.415 2.176 8.797 2.16 12 2.16zm0 5.48c-2.336 0-4.238 1.902-4.238 4.238s1.902 4.238 4.238 4.238 4.238-1.902 4.238-4.238S14.336 7.64 12 7.64zm0 6.69c-1.365 0-2.468-1.103-2.468-2.468s1.103-2.468 2.468-2.468 2.468 1.103 2.468 2.468-1.103 2.468-2.468 2.468zm4.852-6.52c-.732 0-1.325.593-1.325 1.325s.593 1.325 1.325 1.325 1.325-.593 1.325-1.325-.593-1.325-1.325-1.325z"/></svg></a>
+                        <a href="#" aria-label="Facebook"><svg class="icon" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Facebook</title><path d="M22.675 0h-21.35C.582 0 0 .582 0 1.325v21.351C0 23.418.582 24 1.325 24H12.82v-9.294H9.692v-3.622h3.128V8.413c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12V24h6.116c.742 0 1.325-.582 1.325-1.325V1.325C24 .582 23.418 0 22.675 0z"/></svg></a>
+                        <a href="#" aria-label="WhatsApp"><svg class="icon" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>WhatsApp</title><path d="M12.061 0C5.425 0 0 5.373 0 12.001c0 2.101.543 4.103 1.58 5.894L.025 24l6.238-1.652a11.956 11.956 0 0 0 5.798 1.502h.002c6.637 0 12.001-5.373 12.001-12.001C24.063 5.373 18.698 0 12.061 0zm0 21.819c-1.895 0-3.695-.53-5.228-1.488l-.376-.223-3.878 1.028 1.045-3.784-.244-.395a9.883 9.883 0 0 1-1.58-5.155c0-5.463 4.465-9.894 9.961-9.894 5.496 0 9.961 4.43 9.961 9.894s-4.465 9.894-9.961 9.894zm5.224-6.878c-.282-.142-1.662-.82-1.92-.914-.258-.094-.446-.142-.633.142-.188.283-.726.914-.89 1.1-.164.185-.328.209-.61.067-.282-.142-1.192-.44-2.27-1.399- .839-.745-1.405-1.662-1.57-1.944-.164-.283-.018-.433.125-.575.129-.129.283-.328.425-.492.143-.164.188-.283.282-.47.094-.188.047-.352-.023-.493-.07-.143-.633-1.523-.868-2.086-.226-.544-.453-.469-.633-.478-.17-.01-.357-.01-.544-.01-.188 0-.493.07-.749.352-.259.283-1.003.98-1.003 2.383s1.026 2.768 1.17 2.953c.142.188 2.015 3.078 4.887 4.314 2.873 1.236 2.873.824 3.397.796.524-.027 1.662-.679 1.897-1.336.236-.656.236-1.218.164-1.336-.072-.12-.259-.186-.541-.328z"/></svg></a>
+                    </div>
+                </div>
+                <!-- Coluna 2: Soluções -->
+                <div class="footer-column">
+                    <h4>Soluções</h4>
+                    <ul class="footer-links">
+                        <li><a href="#solucoes">Corporativas</a></li>
+                        <li><a href="#ecommerce">E-commerce</a></li>
+                        <li><a href="#web-apps">Aplicações Web</a></li>
+                        <li><a href="#ia">IA & Dados</a></li>
+                    </ul>
+                </div>
+                <!-- Coluna 3: Contato Rápido -->
+                <div class="footer-column">
+                    <h4>Contato Rápido</h4>
+                     <ul class="footer-links">
+                        <li><a href="mailto:contato@teknoluvas.com">contato@teknoluvas.com</a></li>
+                        <li><a href="tel:+5511999998888">+55 (11) 99999-8888</a></li>
+                    </ul>
+                </div>
+                <!-- Coluna 4: Newsletter -->
+                <div class="footer-column">
+                    <h4>Fique por Dentro</h4>
+                    <p>Inscreva-se para receber novidades sobre tecnologia e nossas soluções.</p>
+                    <form class="newsletter-form">
+                        <label for="newsletter-email" class="sr-only">Seu e-mail</label>
+                        <input type="email" id="newsletter-email" placeholder="Seu e-mail">
+                        <button type="submit">Inscrever</button>
+                    </form>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 TEKNOLUVAS. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script type="module">
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // --- Header Scroll Animation ---
+            const header = document.querySelector('header');
+            if (header) {
+                window.addEventListener('scroll', () => {
+                    if (window.scrollY > 10) {
+                        header.classList.add('scrolled');
+                    } else {
+                        header.classList.remove('scrolled');
+                    }
+                });
+            }
+            
+            // --- Mobile Menu Logic ---
+            const menuButton = document.getElementById('menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const openIcon = document.getElementById('menu-open-icon');
+            const closeIcon = document.getElementById('menu-close-icon');
+
+            if (menuButton && mobileMenu && openIcon && closeIcon) {
+                menuButton.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('active');
+                    const isActive = mobileMenu.classList.contains('active');
+                    openIcon.style.display = isActive ? 'none' : 'block';
+                    closeIcon.style.display = isActive ? 'block' : 'none';
+                    menuButton.setAttribute('aria-expanded', String(isActive));
+                });
+
+                mobileMenu.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', () => {
+                        mobileMenu.classList.remove('active');
+                        openIcon.style.display = 'block';
+                        closeIcon.style.display = 'none';
+                        menuButton.setAttribute('aria-expanded', 'false');
+                    });
+                });
+            }
+
+            // --- Shared Drawer Logic ---
+            const drawerOverlay = document.getElementById('drawer-overlay');
+            const cartDrawer = document.getElementById('cart-drawer');
+
+            if(drawerOverlay) {
+                drawerOverlay.addEventListener('click', () => {
+                    if (cartDrawer.classList.contains('active')) toggleCart();
+                });
+            }
+
+            // --- Budget (Shopping Cart) Logic ---
+            const cartButton = document.getElementById('cart-button');
+            const cartCloseButton = document.getElementById('cart-close-button');
+            const addToCartButtons = document.querySelectorAll('.add-to-cart-btn');
+            const cartItemsContainer = document.getElementById('cart-items');
+            const cartBadge = document.getElementById('cart-badge');
+            const cartEmptyMessage = document.getElementById('cart-empty-message');
+            const checkoutButton = document.querySelector('.cart-checkout-button');
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            
+            const saveCart = () => {
+                localStorage.setItem('cart', JSON.stringify(cart));
+            };
+
+            const toggleCart = () => {
+                cartDrawer.classList.toggle('active');
+                drawerOverlay.classList.toggle('active');
+                document.body.style.overflow = cartDrawer.classList.contains('active') ? 'hidden' : '';
+            };
+
+            const renderCart = () => {
+                cartItemsContainer.innerHTML = '';
+                cartEmptyMessage.style.display = cart.length === 0 ? 'block' : 'none';
+                
+                if (cart.length > 0) {
+                    cart.forEach(item => {
+                        const li = document.createElement('li');
+                        li.classList.add('cart-item');
+                        li.dataset.productId = item.id;
+                        li.innerHTML = `
+                            <img src="${item.image}" alt="${item.name}" class="cart-item-image">
+                            <div class="cart-item-details">
+                                <h4>${item.name}</h4>
+                                <div class="cart-item-quantity">
+                                    <button class="quantity-btn decrease-quantity-btn" aria-label="Diminuir quantidade">-</button>
+                                    <span>${item.quantity}</span>
+                                    <button class="quantity-btn increase-quantity-btn" aria-label="Aumentar quantidade">+</button>
+                                </div>
+                            </div>`;
+                        cartItemsContainer.appendChild(li);
+                    });
+                }
+                updateCartBadge();
+                saveCart();
+            };
+            
+            const updateCartBadge = () => {
+                const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+                cartBadge.textContent = String(totalItems);
+                cartBadge.classList.toggle('visible', totalItems > 0);
+            };
+
+            addToCartButtons.forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const clickedButton = e.currentTarget;
+                    const { productId, productName, productImage } = clickedButton.dataset;
+                    
+                    if (!productId || !productName || !productImage) return;
+
+                    // Prevent multiple clicks while animation is running
+                    if (clickedButton.disabled) return;
+
+                    const originalContent = clickedButton.innerHTML;
+                    clickedButton.disabled = true;
+                    
+                    // Visual feedback
+                    clickedButton.innerHTML = `
+                        <span style="display: flex; align-items: center; justify-content: center; gap: 0.5rem; line-height: 1;">
+                            Adicionado
+                            <svg style="width: 1.1rem; height: 1.1rem;" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                        </span>`;
+
+                    // Add to cart logic
+                    const existingItem = cart.find(item => item.id === productId);
+                    if (existingItem) {
+                        existingItem.quantity++;
+                    } else {
+                        cart.push({ id: productId, name: productName, image: productImage, quantity: 1 });
+                    }
+                    
+                    // Render cart and open drawer
+                    renderCart();
+                    if (!cartDrawer.classList.contains('active')) {
+                        toggleCart();
+                    }
+
+                    // Revert button state after a delay
+                    setTimeout(() => {
+                        clickedButton.innerHTML = originalContent;
+                        clickedButton.disabled = false;
+                    }, 1500);
+                });
+            });
+            
+            cartItemsContainer?.addEventListener('click', (e) => {
+                const cartItemElement = e.target.closest('.cart-item');
+                if (!cartItemElement) return;
+
+                const productId = cartItemElement.dataset.productId;
+                const itemInCart = cart.find(item => item.id === productId);
+                if (!itemInCart) return;
+
+                if (e.target.classList.contains('increase-quantity-btn')) {
+                    itemInCart.quantity++;
+                } else if (e.target.classList.contains('decrease-quantity-btn')) {
+                    itemInCart.quantity--;
+                }
+                
+                if (itemInCart.quantity <= 0) cart = cart.filter(item => item.id !== productId);
+                
+                renderCart();
+            });
+
+            cartButton?.addEventListener('click', toggleCart);
+            cartCloseButton?.addEventListener('click', toggleCart);
+            renderCart(); // Initial render
+
+            // --- Form Validation Logic ---
+            const setError = (inputElement, message) => {
+                const formGroup = inputElement.parentElement;
+                const errorDisplay = formGroup.querySelector('.form-error-message');
+                inputElement.classList.add('invalid');
+                if (errorDisplay) errorDisplay.innerText = message;
+            };
+
+            const clearError = (inputElement) => {
+                const formGroup = inputElement.parentElement;
+                const errorDisplay = formGroup.querySelector('.form-error-message');
+                inputElement.classList.remove('invalid');
+                if (errorDisplay) errorDisplay.innerText = '';
+            };
+            
+            const clearGuestErrors = () => {
+                clearError(document.getElementById('guest-name'));
+                clearError(document.getElementById('guest-email'));
+                clearError(document.getElementById('guest-phone'));
+            }
+            
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    if (cartDrawer.classList.contains('active')) toggleCart();
+                }
+            });
+
+            checkoutButton?.addEventListener('click', async () => {
+                if (cart.length === 0) {
+                    alert('Seu orçamento está vazio!');
+                    return;
+                }
+                clearGuestErrors();
+
+                const whatsappNumber = "5514997201523";
+                
+                const guestNameInput = document.getElementById('guest-name');
+                const guestEmailInput = document.getElementById('guest-email');
+                const guestPhoneInput = document.getElementById('guest-phone');
+                
+                const userName = guestNameInput.value.trim();
+                const userEmail = guestEmailInput.value.trim();
+                const userPhone = guestPhoneInput.value.trim();
+                
+                let isGuestValid = true;
+                if(!userName) {
+                    setError(guestNameInput, 'O nome é obrigatório.');
+                    isGuestValid = false;
+                }
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if(!userEmail || !emailRegex.test(userEmail)) {
+                    setError(guestEmailInput, 'Por favor, insira um e-mail válido.');
+                    isGuestValid = false;
+                }
+                if(!userPhone || userPhone.length < 10) {
+                    setError(guestPhoneInput, 'Telefone inválido (inclua o DDD).');
+                    isGuestValid = false;
+                }
+
+                if (!isGuestValid) return;
+                
+                const productsList = cart.map(item => `*produto: ${item.name}/ *quantidade: ${item.quantity}`).join('\n\n');
+                const observations = document.getElementById('budget-observations-textarea').value.trim();
+
+                let message = `Olá! Gostaria de um orçamento para os seguintes itens:\n\n${productsList}\n\n`;
+
+                if(observations) {
+                    message += `*Observações:*\n${observations}\n\n`;
+                }
+
+                message += `*Meus Dados:*\n- Nome: ${userName}\n- Email: ${userEmail}\n- Telefone: ${userPhone}\n\nAguardando o contato. Obrigado!`;
+                
+                const encodedMessage = encodeURIComponent(message);
+                window.open(`https://wa.me/${whatsappNumber}?text=${encodedMessage}`, '_blank');
+                
+                // Limpa o orçamento após o envio
+                cart = [];
+                renderCart();
+                toggleCart();
+            });
+
+            // --- Lógica da Animação de Rolagem ---
+            const animatedElements = document.querySelectorAll('.scroll-animate');
+            if (animatedElements.length > 0) {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('visible');
+                        } else {
+                            entry.target.classList.remove('visible');
+                        }
+                    });
+                }, {
+                    rootMargin: '0px 0px -50px 0px' // Aciona um pouco antes de estar totalmente visível
+                });
+
+                animatedElements.forEach(el => {
+                    observer.observe(el);
+                });
+            }
+        });
+    </script>
+</body>
+</html>
