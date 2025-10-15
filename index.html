@@ -2114,7 +2114,7 @@
 
                 if (!isGuestValid) return;
                 
-                const productsList = cart.map(item => `*produto: ${item.name}/ *quantidade: ${item.quantity}`).join('\n\n');
+                const productsList = cart.map(item => `*produto: ${item.name}/  *quantidade: ${item.quantity}`).join('\n\n');
                 const observations = document.getElementById('budget-observations-textarea').value.trim();
 
                 let message = `Olá! Gostaria de um orçamento para os seguintes itens:\n\n${productsList}\n\n`;
